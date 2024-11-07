@@ -601,3 +601,20 @@ class GenerateComputerTitleTest(TestCase):
             },
         )
         self.assertEqual(title, "2024-machine")
+
+    @mock.patch("landscape.client.deployment.debug")
+    def test_generate_computer_title_wait_for_config_file(
+        self,
+        mock_debug,
+    ):
+        title = generate_computer_title(
+            {
+                "enabled": True,
+                "configured": False,
+                "wait-for-config": True,
+            },
+        )
+        self.assertIsNone(title)
+        mock_debug.assert_called_once_with(
+            "No config file found, waiting..."
+        )

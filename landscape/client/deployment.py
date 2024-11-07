@@ -273,6 +273,11 @@ def generate_computer_title(auto_enroll_config):
         debug("Waiting for hostname...")
         return
 
+    wait_for_config = auto_enroll_config.get("wait-for-config", False)
+    if not os.path.exists(DEFAULT_CONFIG)) and wait_for_config:
+        debug("Waiting for default config file...")
+        return
+
     nics = get_active_device_info(default_only=True)
     nic = nics[0] if nics else {}
 
